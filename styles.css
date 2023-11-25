@@ -1,31 +1,33 @@
-/* styles.css */
-* {
-    /* Your existing styles here */
-}
+// scripts.js
 
-/* Uncomment the styles you want to use */
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  padding: 20px;
-  background-color: #2196F3;
-  color: white;
-}
-header h1 {
-  float: left;
-  font-size: 20px;
-  font-weight: 400;
-}
-header .material-icons {
-  float: right;
-  cursor: pointer;
-}
-header .icon-menu {
-  float: left;
-  margin-right: 20px;
-} */
+const FileSystem = {
+    "Root": {
+        "Documents": {
+            "file1.txt": "This is the content of file1.txt",
+            "file2.txt": "This is the content of file2.txt",
+            "Subfolder": {
+                "file3.txt": "This is the content of file3.txt"
+            }
+        },
+        "Downloads": {
+            "file4.txt": "This is the content of file4.txt"
+        },
+        "Photos": {}
+    },
+    "Music": {
+        "song1.mp3": "This is the content of song1.mp3",
+        "song2.mp3": "This is the content of song2.mp3"
+    }
+};
 
-/* Remaining styles here */
+// Add a new folder "Documents" with files
+FileSystem.Root.Documents = {
+    "file1.txt": "This is the content of file1.txt",
+    "file2.txt": "This is the content of file2.txt",
+    "Subfolder": {
+        "file3.txt": "This is the content of file3.txt"
+    }
+};
+
+// Reload the explorer
+initializeExplorer();
