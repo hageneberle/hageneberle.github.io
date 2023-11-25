@@ -8,7 +8,61 @@
 </head>
 <body>
 
-<iframe src="https://drive.google.com/embeddedfolderview?id=19jMqyvKNakM6JqAbLBTBb3_3FWFuIrDG#list" width="100%" height="600" frameborder="0"></iframe>
+<iframe id="drive-iframe" width="100%" height="600" frameborder="0"></iframe>
+
+<script>
+    // Replace 'YOUR_FOLDER_ID' with the actual folder ID from your Google Drive URL
+    const folderId = '19jMqyvKNakM6JqAbLBTBb3_3FWFuIrDG';
+    const iframe = document.getElementById('drive-iframe');
+
+    function fetchDriveFiles(folderId) {
+        const driveUrl = `https://www.googleapis.com/drive/v3/files?q='${folderId}' in parents&key=AIzaSyAU9Pas9G2UT_EWuPoqzdHurA3cGmvc5rA`;
+
+        fetch(driveUrl)
+            .then(response => response.json())
+            .then(data => {
+                const files = data.files;
+
+                // Create HTML for the links
+                const html = files.map(file => {
+                    const fileLink = `<a href="#" data-id="${file.id}" data-type="${file.mimeType}">${file.name}</a><br>`;
+                    return fileLink;
+                }).join('');
+
+                // Display the links in the iframe
+                iframe.contentDocument.body.innerHTML = html;
+
+                // Add click event listeners to the links
+                const links = iframe.contentDocument.querySelectorAll('a');
+                links.forEach(link => {
+                    link.addEventListener('click', handleLinkClick);
+                });
+            })
+            .catch(error => console.error('Error fetching Google Drive files:', error));
+    }
+
+    function handleLinkClick(event) {
+        event.preventDefault();
+        const fileId = event.target.dataset.id;
+        const fileType = event.target.dataset.type;
+
+        // If it's a folder, fetch its content; if it's a file, display it
+        if (fileType === 'application/vnd.google-apps.folder') {
+            fetchDriveFiles(fileId);
+        } else {
+            displayFile(fileId);
+        }
+    }
+
+    function displayFile(fileId) {
+        // You can customize this part based on how you want to display the file
+        // For example, you might want to embed a viewer for certain file types
+        console.log(`Displaying file with ID: ${fileId}`);
+    }
+
+    // Call the function with the initial folderId
+    fetchDriveFiles(folderId);
+</script>
 
 </body>
 </html>
