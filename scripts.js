@@ -1,11 +1,12 @@
+// scripts.js
 const FileSystem = {
-  "Documents": {
-    
-  },
-  "Downloads": {
-    
-  },
-  "Photos": {
-    
-  }
+    "Documents": {
+        // Add your folder and file structure here
+    },
+    "Downloads": {
+        // Add your folder and file structure here
+    },
+    "Photos": {
+        // Add your folder and file structure here
+    }
 }
