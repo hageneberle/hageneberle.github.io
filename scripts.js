@@ -45,11 +45,11 @@ function renderFolder(name, folder, parentElement) {
     heading.textContent = name;
     folderElement.appendChild(heading);
 
+    parentElement.appendChild(folderElement);
+
     folderElement.addEventListener("click", function () {
         renderDirectory(name, folder, folderElement);
     });
-
-    parentElement.appendChild(folderElement);
 }
 
 function renderFile(name, content, parentElement) {
@@ -71,12 +71,13 @@ function renderFile(name, content, parentElement) {
     heading.textContent = name;
     fileElement.appendChild(heading);
 
+    parentElement.appendChild(fileElement);
+
     fileElement.addEventListener("click", function () {
         renderFileContent(name, content);
     });
-
-    parentElement.appendChild(fileElement);
 }
+
 
 function renderDirectory(folderName, folder, parentElement) {
     // Your code to render the directory goes here
