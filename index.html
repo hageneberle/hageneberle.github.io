@@ -9,6 +9,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            display: flex;
         }
 
         #file-explorer {
@@ -17,27 +18,37 @@
             overflow-y: auto;
             border-right: 1px solid #ccc;
             box-sizing: border-box;
-            float: left;
         }
 
         #file-viewer {
+            flex: 1;
             height: 100vh;
             overflow: auto;
-            margin-left: 300px;
             box-sizing: border-box;
             padding: 20px;
+        }
+
+        .navbar {
+            background-color: #f1f1f1;
+            padding: 16px;
+            width: 100%;
+            box-sizing: border-box;
         }
     </style>
 </head>
 <body>
 
 <div id="file-explorer"></div>
-<div id="file-viewer"></div>
+<div id="file-viewer">
+    <div class="navbar" id="navbar"></div>
+    <div id="file-content"></div>
+</div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const fileExplorer = document.getElementById("file-explorer");
-        const fileViewer = document.getElementById("file-viewer");
+        const navbar = document.getElementById("navbar");
+        const fileContent = document.getElementById("file-content");
 
         const rootFolder = {
             name: "Root",
@@ -73,46 +84,39 @@
             ]
         };
 
-        function renderFolder(folder, parentElement) {
-            const folderElement = document.createElement("div");
-            folderElement.classList.add("folder");
-            folderElement.textContent = folder.name;
-
-            folderElement.addEventListener("click", function () {
-                renderDirectory(folder, fileViewer);
-            });
-
-            parentElement.appendChild(folderElement);
-        }
-
-        function renderFile(file, parentElement) {
-            const fileElement = document.createElement("div");
-            fileElement.classList.add("file");
-            fileElement.textContent = file.name;
-
-            fileElement.addEventListener("click", function () {
-                renderFileContent(file, fileViewer);
-            });
-
-            parentElement.appendChild(fileElement);
-        }
-
-        function renderDirectory(directory, parentElement) {
-            parentElement.innerHTML = "";
-            directory.children.forEach(function (child) {
+        function renderFolder(folder) {
+            navbar.innerHTML = getPath(folder);
+            fileContent.innerHTML = "";
+            folder.children.forEach(function (child) {
                 if (child.type === "folder") {
-                    renderFolder(child, parentElement);
+                    renderFolder(child);
                 } else if (child.type === "file") {
-                    renderFile(child, parentElement);
+                    renderFileContent(child);
                 }
             });
         }
 
-        function renderFileContent(file, parentElement) {
-            parentElement.innerHTML = "<pre>" + file.content + "</pre>";
+        function renderFileContent(file) {
+            navbar.innerHTML = getPath(file);
+            fileContent.innerHTML = "<pre>" + file.content + "</pre>";
         }
 
-        renderDirectory(rootFolder, fileExplorer);
+        function getPath(item) {
+            let path = [item.name];
+            let parent = item.parent;
+            while (parent) {
+                path.unshift(parent.name);
+                parent = parent.parent;
+            }
+            return path.join(" / ");
+        }
+
+        function initializeExplorer() {
+            fileExplorer.innerHTML = "";
+            renderFolder(rootFolder);
+        }
+
+        initializeExplorer();
     });
 </script>
 
