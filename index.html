@@ -2,17 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Embedded Google Drive Folder</title>
 </head>
 <body>
 
-    <!-- Insert your Google Drive embed code here -->
-    <div id="19jMqyvKNakM6JqAbLBTBb3_3FWFuIrDG>
-        <!-- Your embed code goes here -->
-        <!-- Example: -->
-        <!-- <iframe src="https://www.driveembedder.com/embed/public-folder-id" width="100%" height="600" frameborder="0" scrolling="no"></iframe> -->
-    </div>
+<div id="drive-folder"></div>
+
+<script>
+    // Replace 'YOUR_FOLDER_ID' with the actual folder ID from your Google Drive URL
+    const folderId = '19jMqyvKNakM6JqAbLBTBb3_3FWFuIrDG';
+
+    // Function to fetch files from the Google Drive folder
+    function fetchDriveFiles(folderId) {
+        const driveUrl = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&key=YOUR_API_KEY`;
+        
+        fetch(driveUrl)
+            .then(response => response.json())
+            .then(data => {
+                const files = data.files;
+                const folderDiv = document.getElementById('drive-folder');
+                
+                // Create links for each file
+                files.forEach(file => {
+                    const fileLink = document.createElement('a');
+                    fileLink.href = `https://drive.google.com/file/d/${file.id}/view`;
+                    fileLink.textContent = file.name;
+                    fileLink.target = '_blank';
+
+                    // Append the link to the folder div
+                    folderDiv.appendChild(fileLink);
+                    
+                    // Add a line break for better readability
+                    folderDiv.appendChild(document.createElement('br'));
+                });
+            })
+            .catch(error => console.error('Error fetching Google Drive files:', error));
+    }
+
+    // Call the function with the folderId
+    fetchDriveFiles(folderId);
+</script>
 
 </body>
 </html>
