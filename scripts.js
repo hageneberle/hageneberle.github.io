@@ -48,7 +48,7 @@ function renderFolder(name, folder, parentElement) {
     parentElement.appendChild(folderElement);
 
     folderElement.addEventListener("click", function () {
-        renderDirectory(name, folder, folderElement);
+        alert(`Clicked on folder: ${name}`);
     });
 }
 
@@ -74,18 +74,8 @@ function renderFile(name, content, parentElement) {
     parentElement.appendChild(fileElement);
 
     fileElement.addEventListener("click", function () {
-        renderFileContent(name, content);
+        alert(`Clicked on file: ${name}`);
     });
-}
-
-
-function renderDirectory(folderName, folder, parentElement) {
-    // Your code to render the directory goes here
-    // You'll need to clear the existing content and append new folders/files based on the "folder" parameter
-}
-
-function renderFileContent(fileName, content) {
-    // Your code to render the file content goes here
 }
 
 initializeExplorer();
