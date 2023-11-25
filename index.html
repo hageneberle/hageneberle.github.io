@@ -8,42 +8,7 @@
 </head>
 <body>
 
-<div id="drive-folder"></div>
-
-<script>
-    // Replace 'YOUR_FOLDER_ID' with the actual folder ID from your Google Drive URL
-    const folderId = '19jMqyvKNakM6JqAbLBTBb3_3FWFuIrDG';
-
-    // Function to fetch files from the Google Drive folder
-    function fetchDriveFiles(folderId) {
-        const driveUrl = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&key=AIzaSyAU9Pas9G2UT_EWuPoqzdHurA3cGmvc5rA`;
-        
-        fetch(driveUrl)
-            .then(response => response.json())
-            .then(data => {
-                const files = data.files;
-                const folderDiv = document.getElementById('drive-folder');
-                
-                // Create links for each file
-                files.forEach(file => {
-                    const fileLink = document.createElement('a');
-                    fileLink.href = `https://drive.google.com/file/d/${file.id}/view`;
-                    fileLink.textContent = file.name;
-                    fileLink.target = '_blank';
-
-                    // Append the link to the folder div
-                    folderDiv.appendChild(fileLink);
-                    
-                    // Add a line break for better readability
-                    folderDiv.appendChild(document.createElement('br'));
-                });
-            })
-            .catch(error => console.error('Error fetching Google Drive files:', error));
-    }
-
-    // Call the function with the folderId
-    fetchDriveFiles(folderId);
-</script>
+<iframe src="https://drive.google.com/embeddedfolderview?id=19jMqyvKNakM6JqAbLBTBb3_3FWFuIrDG#list" width="100%" height="600" frameborder="0"></iframe>
 
 </body>
 </html>
